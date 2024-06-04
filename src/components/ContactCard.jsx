@@ -1,56 +1,48 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Context } from '../store.jsx';
-import pikachu from '../../img/pikachu.jpg';
-import '../../styles/home.css';
+import React from "react";
+import PropTypes from "prop-types";
 
-export const ContactCard = ({ contact }) => {
-  const { deleteContact } = useContext(Context);
-
+export const ContactCard = (props) => {
   return (
     <li className="list-group-item">
       <div className="row w-100">
         <div className="col-12 col-sm-6 col-md-3 px-0">
           <img
-            src={pikachu}
-            alt="pika"
+            src="https://via.placeholder.com/200"
+            alt="placeholder"
             className="rounded-circle mx-auto d-block img-fluid"
-            style={{ width: "200px" }}
           />
         </div>
+
         <div className="col-12 col-sm-6 col-md-9 text-center text-sm-left">
           <div className="float-right">
-            <Link to={`/edit/${contact.id}`}>
-              <button className="btn">
-                <i className="fas fa-pencil-alt" />
-              </button>
-            </Link>
-            <button className="btn" onClick={() => deleteContact(contact.id)}>
+            <button className="btn" onClick={() => props.onEdit(props.contact)}>
+              <i className="fas fa-pencil-alt" />
+            </button>
+            <button className="btn" onClick={() => props.onDelete(props.contact.id)}>
               <i className="fas fa-trash-alt" />
             </button>
           </div>
           <label className="name lead">
-            <i className="fas fa-user fa-fw text-muted mr-3" />
-            {contact.full_name}
+            {props.contact.full_name}
           </label>
           <br />
           <span className="text-muted">
             <i className="fa fa-phone fa-fw text-muted mr-3" />
-            {contact.phone}
+            {props.contact.phone}
           </span>
           <br />
-          <span
-            className="fa fa-building fa-fw text-muted mr-3"
-            data-toggle="tooltip"
-            title=""
-            data-original-title="(870) 288-4149"
-          />
-          <span className="text-muted small">{contact.address}</span>
+          <span className="text-muted small">{props.contact.address}</span>
           <br />
           <i className="fas fa-envelope fa-fw text-muted mr-3" />
-          <span className="text-muted small text-truncate">{contact.email}</span>
+          <span className="text-muted small text-truncate">{props.contact.email}</span>
         </div>
       </div>
     </li>
   );
+};
+
+ContactCard.propTypes = {
+  contact: PropTypes.object.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired
 };

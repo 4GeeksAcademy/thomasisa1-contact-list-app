@@ -1,82 +1,62 @@
-import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Context } from '../../store.jsx';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export const AddContact = () => {
-  const { addContact } = useContext(Context);
   const [contact, setContact] = useState({
-    full_name: '',
-    email: '',
-    phone: '',
-    address: ''
+    full_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    agenda_slug: "thomasisa1"
   });
-
   const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setContact((prevContact) => ({ ...prevContact, [name]: value }));
+    setContact({ ...contact, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addContact(contact);
-    history.push('/');
+    try {
+      const response = await fetch("https://playground.4geeks.com/apis/fake/contact/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(contact)
+      });
+      if (response.ok) {
+        history.push("/");
+      } else {
+        console.error("Failed to add contact");
+      }
+    } catch (error) {
+      console.error("Error adding contact:", error);
+    }
   };
 
   return (
     <div className="container">
-      <h1>Add New Contact</h1>
+      <h1>Add Contact</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="full_name">Full Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="full_name"
-            name="full_name"
-            value={contact.full_name}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Full Name</label>
+          <input type="text" name="full_name" value={contact.full_name} onChange={handleChange} required />
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={contact.email}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Email</label>
+          <input type="email" name="email" value={contact.email} onChange={handleChange} required />
         </div>
-        <div className="form-group">
-          <label htmlFor="phone">Phone</label>
-          <input
-            type="tel"
-            className="form-control"
-            id="phone"
-            name="phone"
-            value={contact.phone}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Phone</label>
+          <input type="text" name="phone" value={contact.phone} onChange={handleChange} required />
         </div>
-        <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            className="form-control"
-            id="address"
-            name="address"
-            value={contact.address}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Address</label>
+          <input type="text" name="address" value={contact.address} onChange={handleChange} required />
         </div>
-        <button type="submit" className="btn btn-primary">Save</button>
+        <button type="submit">Add Contact</button>
       </form>
     </div>
   );

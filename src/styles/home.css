@@ -1,0 +1,32 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .container {
+    margin-top: 30px;
+  }
+  
+  .list-group-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+  
+  .name {
+    font-size: 1.5em;
+  }
+  
+  .text-muted {
+    font-size: 0.9em;
+  }
+  
+  .btn {
+    margin-left: 10px;
+  }
